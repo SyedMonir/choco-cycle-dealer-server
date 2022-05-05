@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,11 +22,20 @@ async function run() {
     console.log('Choco-Cycle Database Connected..');
     const cycleCollection = client.db('choco-cycle').collection('cycles');
 
+    // ALL Cycle
     app.get('/cycle', async (req, res) => {
       const query = {};
       const cursor = cycleCollection.find(query);
       const cycles = await cursor.toArray();
       res.send(cycles);
+    });
+
+    // Cycle By ID
+    app.get('/cycle/:cycleId', async (req, res) => {
+      const id = req.params.cycleId;
+      const query = { _id: ObjectId(id) };
+      const cycle = await cycleCollection.findOne(query);
+      res.send(cycle);
     });
   } finally {
     console.log('Error From Finally');
