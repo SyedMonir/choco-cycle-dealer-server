@@ -57,14 +57,12 @@ async function run() {
     });
 
     // Delete
-    app.delete('/cycle/:cycleId'),
-      async (req, res) => {
-        const id = req.params.cycleId;
-        console.log(id);
-        const query = { _id: ObjectId(id) };
-        const result = await cycleCollection.deleteOne(query);
-        res.send(result);
-      };
+    app.delete('/cycle/:cycleId', async (req, res) => {
+      const id = req.params.cycleId;
+      const query = { _id: ObjectId(id) };
+      const result = await cycleCollection.deleteOne(query);
+      res.send(result);
+    });
   } finally {
     console.log('Error From Finally');
   }
