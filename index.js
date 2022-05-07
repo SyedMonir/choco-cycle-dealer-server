@@ -67,6 +67,20 @@ async function run() {
       res.send(cycle);
     });
 
+    // My Cycle
+    app.get('/my-cycles', verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+      if (decodedEmail === email) {
+        const query = { email };
+        const cursor = cycleCollection.find(query);
+        const cycles = await cursor.toArray();
+        res.send(cycles);
+      } else {
+        res.status(403).send({ message: 'Forbidden access' });
+      }
+    });
+
     // Update cycle
     app.put('/cycle/:cycleId', async (req, res) => {
       const id = req.params.cycleId;
