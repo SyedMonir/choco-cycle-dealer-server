@@ -37,6 +37,24 @@ async function run() {
       const cycle = await cycleCollection.findOne(query);
       res.send(cycle);
     });
+
+    // Update cycle
+    app.put('/cycle/:cycleId', async (req, res) => {
+      const id = req.params.cycleId;
+      const updatedQuantity = req.body;
+      // console.log(updatedQuantity);
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: { quantity: updatedQuantity.totalQuantity },
+      };
+      const result = await cycleCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
   } finally {
     console.log('Error From Finally');
   }
