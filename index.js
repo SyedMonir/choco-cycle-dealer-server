@@ -22,7 +22,7 @@ function verifyJWT(req, res, next) {
       return res.status(403).send({ message: 'Forbidden access' });
     }
     req.decoded = decoded;
-    console.log('decoded', decoded);
+    // console.log('decoded', decoded);
     next();
   });
 }
@@ -39,6 +39,15 @@ async function run() {
     await client.connect();
     console.log('Choco-Cycle Database Connected..');
     const cycleCollection = client.db('choco-cycle').collection('cycles');
+
+    // Auth
+    app.post('/login', async (req, res) => {
+      const user = req.body;
+      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '1d',
+      });
+      res.send({ accessToken });
+    });
 
     // ALL Cycle
     app.get('/cycle', async (req, res) => {
