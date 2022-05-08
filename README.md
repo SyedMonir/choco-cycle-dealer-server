@@ -4,7 +4,9 @@ This Server is for Choco Cycle Dealer. It was created with create-react-app. The
 
 ## Live website
 
-[Click here](https://choco-cycle-dealer.web.app/)
+[Main-Website](https://choco-cycle-dealer.web.app/)
+
+[Server](https://choco-cycle-dealer.herokuapp.com/)
 
 ## Features
 
